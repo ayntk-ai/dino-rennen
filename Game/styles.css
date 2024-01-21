@@ -1,0 +1,46 @@
+/* Reset all padding and margin */
+* {
+    padding: 0px;
+    margin: 0px;
+}
+
+
+/* Reset browser default margin and padding */
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh; /* Ensure body takes full viewport height */
+    display: flex; /* Align children elements as flex */
+    align-items: center; /* Center items vertically */
+    justify-content: center; /* Center items horizontally */
+
+    
+       /* Disable text selection */
+       user-select: none;
+       touch-action: none;
+       -webkit-touch-callout: none;
+       -webkit-user-select: none;
+       -khtml-user-select: none;
+       -moz-user-select: none;
+       -ms-user-select: none;
+       user-select: none;
+   
+       /* Remove outline on focus */
+       outline: none;
+   
+       /* Disable tap highlight */
+       -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+}
+
+
+/* Define canvas styling */
+canvas {
+    display: block; /* Block element */
+    border: 1px solid black; /* 1px black border */
+    margin-top: 32px; /* Top margin */
+    margin-left: 32px; /* Left margin */
+    margin-right: 32px; /* Right margin */
+    border-radius: 4px; /* Rounded corners */
+}
+
+  
