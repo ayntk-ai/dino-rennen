@@ -5,7 +5,7 @@ import Score from "./score.js";
 
 
 export default class Canvas {
-    constructor(canvasId, controlKey,  playerId) {
+    constructor(canvasId, controlKey, playerId) {
         this.canvas = document.getElementById(canvasId);
         this.ctx = this.canvas.getContext("2d");
 
@@ -22,11 +22,11 @@ export default class Canvas {
         this.GROUND_HEIGHT = 24;
         this.GROUND_AND_CACTUS_SPEED = 0.5;
 
-        
+
         this.CACTI_CONFIG = [
-            {width:48 / 1.5, height:100 / 1.5, image:"images/cactus_1.png"},
-            {width:98 / 1.5, height:100 / 1.5, image:"images/cactus_2.png"},
-            {width:68 / 1.5, height:70 / 1.5, image:"images/cactus_3.png"},
+            { width: 48 / 1.5, height: 100 / 1.5, image: "images/cactus_1.png" },
+            { width: 98 / 1.5, height: 100 / 1.5, image: "images/cactus_2.png" },
+            { width: 68 / 1.5, height: 70 / 1.5, image: "images/cactus_3.png" },
         ];
 
         // Game Objects
@@ -44,7 +44,7 @@ export default class Canvas {
         this.gameOver = false;
         this.hasAddedEventListenersForRestart = false;
         this.waitingToStart = true;
-        
+
 
         this.setScreen();
         window.addEventListener("resize", () => setTimeout(() => this.setScreen(), 500));
@@ -74,7 +74,7 @@ export default class Canvas {
             minJumpHeightInGame,
             maxJumpHeightInGame,
             this.scaleRatio,
-           {jump: this.controlKey} // Steuerungstasten für den Spieler
+            { jump: this.controlKey } // Steuerungstasten für den Spieler
         );
 
         this.ground = new Ground(
@@ -102,122 +102,122 @@ export default class Canvas {
 
 
         this.cactiController = new CactiController(
-            this.ctx, 
-            this.cactiImages, 
-            this.scaleRatio, 
+            this.ctx,
+            this.cactiImages,
+            this.scaleRatio,
             this.GROUND_AND_CACTUS_SPEED
         );
 
     }
 
     setScreen() {
-                this.scaleRatio = this.getScaleRatio();
-                this.canvas.width = this.GAME_WIDTH * this.scaleRatio;
-                this.canvas.height = this.GAME_HEIGHT * this.scaleRatio;
-                this.createSprites();
-            }
+        this.scaleRatio = this.getScaleRatio();
+        this.canvas.width = this.GAME_WIDTH * this.scaleRatio;
+        this.canvas.height = this.GAME_HEIGHT * this.scaleRatio;
+        this.createSprites();
+    }
 
-            showStartGameText(){
-                const fontSize = 40 * this.scaleRatio;
-                    this.ctx.font = `${fontSize}px Verdana`;
-                    this.ctx.fillStyle = "grey";
-                    const x = this.canvas.width / 14;
-                    const y = this.canvas.height / 2;
-                    this.ctx.fillText(`Drücke ${this.controlKey}`, x, y);
-            }
-                
-                showGameOver(){
-                    const fontSize = 40 * this.scaleRatio;
-                    this.ctx.font = `${fontSize}px Verdana`;
-                    this.ctx.fillStyle = "grey";
-                    const x = this.canvas.width / 4.5;
-                    const y = this.canvas.height / 2;
-                    this.ctx.fillText(`GAME OVER, drücke ${this.controlKey}`, x, y);
-            }
+    showStartGameText() {
+        const fontSize = 40 * this.scaleRatio;
+        this.ctx.font = `${fontSize}px Verdana`;
+        this.ctx.fillStyle = "grey";
+        const x = this.canvas.width / 14;
+        const y = this.canvas.height / 2;
+        this.ctx.fillText(`Drücke ${this.controlKey}`, x, y);
+    }
 
-            setupGameReset(){
-                if (!this.hasAddedEventListenersForRestart) {
-                    this.hasAddedEventListenersForRestart = true;
-                    window.addEventListener("keyup", this.reset.bind(this));
+    showGameOver() {
+        const fontSize = 40 * this.scaleRatio;
+        this.ctx.font = `${fontSize}px Verdana`;
+        this.ctx.fillStyle = "grey";
+        const x = this.canvas.width / 4.5;
+        const y = this.canvas.height / 2;
+        this.ctx.fillText(`GAME OVER, drücke ${this.controlKey}`, x, y);
+    }
 
-                   setTimeout(() =>{
-                       window.addEventListener("keyup", this.reset.bind(this), {once:true});
-                    }, 500);
+    setupGameReset() {
+        if (!this.hasAddedEventListenersForRestart) {
+            this.hasAddedEventListenersForRestart = true;
+            window.addEventListener("keyup", this.reset.bind(this));
 
-                }
-            }
+            setTimeout(() => {
+                window.addEventListener("keyup", this.reset.bind(this), { once: true });
+            }, 500);
+
+        }
+    }
 
 
-            reset(event) {
-                if (event.key === this.controlKey && (this.gameOver || this.waitingToStart)) {
-                    this.hasAddedEventListenersForRestart = false;
-                    this.gameOver = false;
-                    this.waitingToStart = false;
-                    this.ground.reset();
-                    this.cactiController.reset();
-                    this.score.reset();
-                    this.gameSpeed = this.GAME_SPEED_START;
-                }
-            }
+    reset(event) {
+        if (event.key === this.controlKey && (this.gameOver || this.waitingToStart)) {
+            this.hasAddedEventListenersForRestart = false;
+            this.gameOver = false;
+            this.waitingToStart = false;
+            this.ground.reset();
+            this.cactiController.reset();
+            this.score.reset();
+            this.gameSpeed = this.GAME_SPEED_START;
+        }
+    }
 
-            updateGameSpeed(frameTimeDelta){
-                this.gameSpeed += this.GAME_SPEED_INCREMENT * frameTimeDelta;
-            }
+    updateGameSpeed(frameTimeDelta) {
+        this.gameSpeed += this.GAME_SPEED_INCREMENT * frameTimeDelta;
+    }
 
-            clearScreen() {
-                this.ctx.fillStyle = "white";
-                this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-            }
+    clearScreen() {
+        this.ctx.fillStyle = "white";
+        this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+    }
 
-            gameLoop(currentTime) {
-                if (this.previousTime === null) {
-                    this.previousTime = currentTime;
-                    requestAnimationFrame((currentTime) => this.gameLoop(currentTime));
-                    return;
-                }
-                
-                const frameTimeDelta = currentTime - this.previousTime;
-                this.clearScreen();
+    gameLoop(currentTime) {
+        if (this.previousTime === null) {
+            this.previousTime = currentTime;
+            requestAnimationFrame((currentTime) => this.gameLoop(currentTime));
+            return;
+        }
 
-                if (!this.gameOver && !this.waitingToStart) {
-                    // Update game objects
-                    this.ground.update(this.gameSpeed, frameTimeDelta);
-                    this.cactiController.update(this.gameSpeed, frameTimeDelta);
-                    this.player.update(this.gameSpeed, frameTimeDelta);
-                    this.score.update(frameTimeDelta);
-                    this.updateGameSpeed(frameTimeDelta);
-                }
+        const frameTimeDelta = currentTime - this.previousTime;
+        this.clearScreen();
 
-                if (!this.gameOver && this.cactiController.collideWith(this.player)) {
-                    this.gameOver = true;
-                    this.score.setHighScore(this.playerId);
-                }
+        if (!this.gameOver && !this.waitingToStart) {
+            // Update game objects
+            this.ground.update(this.gameSpeed, frameTimeDelta);
+            this.cactiController.update(this.gameSpeed, frameTimeDelta);
+            this.player.update(this.gameSpeed, frameTimeDelta);
+            this.score.update(frameTimeDelta);
+            this.updateGameSpeed(frameTimeDelta);
+        }
 
-                // Draw game objects
-                this.ground.draw();        
-                this.cactiController.draw();       
-                this.player.draw();        
-                this.score.draw(this.playerId);        
-                if(this.gameOver){
-                  this.showGameOver();
-                }
-                if(this.waitingToStart){
-                  this.showStartGameText();
-                }
-                requestAnimationFrame((currentTime) => this.gameLoop(currentTime));
+        if (!this.gameOver && this.cactiController.collideWith(this.player)) {
+            this.gameOver = true;
+            this.score.setHighScore(this.playerId);
+        }
 
-                this.previousTime = currentTime;
-            }
+        // Draw game objects
+        this.ground.draw();
+        this.cactiController.draw();
+        this.player.draw();
+        this.score.draw(this.playerId);
+        if (this.gameOver) {
+            this.showGameOver();
+        }
+        if (this.waitingToStart) {
+            this.showStartGameText();
+        }
+        requestAnimationFrame((currentTime) => this.gameLoop(currentTime));
 
-            getScaleRatio() {
-                const screenHeight = Math.min(window.innerHeight, document.documentElement.clientHeight);
-                const screenWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
+        this.previousTime = currentTime;
+    }
 
-                if (screenWidth / screenHeight < this.GAME_WIDTH / this.GAME_HEIGHT) {
-                    return screenHeight / this.GAME_WIDTH;
-                } 
-                else {
-                    return screenHeight / this.GAME_HEIGHT;
-                }
-            }
+    getScaleRatio() {
+        const screenHeight = Math.min(window.innerHeight, document.documentElement.clientHeight);
+        const screenWidth = Math.min(window.innerWidth, document.documentElement.clientWidth);
+
+        if (screenWidth / screenHeight < this.GAME_WIDTH / this.GAME_HEIGHT) {
+            return screenHeight / this.GAME_WIDTH;
+        }
+        else {
+            return screenHeight / this.GAME_HEIGHT;
+        }
+    }
 } 

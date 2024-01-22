@@ -1,5 +1,5 @@
-export default class Cactus{
-    constructor(ctx, x, y, width, height, image){
+export default class Cactus {
+    constructor(ctx, x, y, width, height, image) {
         this.ctx = ctx;
         this.canvas = ctx.canvas;
         this.x = x;
@@ -10,15 +10,15 @@ export default class Cactus{
 
     }
 
-    update(speed, gameSpeed, frameTimeDelta, scaleRatio){
+    update(speed, gameSpeed, frameTimeDelta, scaleRatio) {
         this.x -= gameSpeed * gameSpeed * frameTimeDelta * scaleRatio;
     }
 
-    draw(){
+    draw() {
         this.ctx.drawImage(this.image, this.x, this.y, this.width, this.height);
     }
 
-    collideWith(sprite){
+    collideWith(sprite) {
         const adjustBy = 1.4;
         if (
             sprite.x + sprite.width / adjustBy > this.x &&
@@ -31,7 +31,7 @@ export default class Cactus{
         else {
             return false;
         }
-        
+
 
     }
 }
